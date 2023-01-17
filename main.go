@@ -3,10 +3,9 @@ package main
 import (
 	"os"
 
-	"github.com/MohamedmuhsinJ/shopify/controllers"
 	"github.com/MohamedmuhsinJ/shopify/database"
 	"github.com/MohamedmuhsinJ/shopify/initalizers"
-	"github.com/MohamedmuhsinJ/shopify/middlewares"
+	routes "github.com/MohamedmuhsinJ/shopify/routes"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,13 +22,9 @@ func main() {
 		port = "8080"
 	}
 	router := gin.Default()
-	controllers.Otp("9159564424")
-	controllers.CheckOtp("9159564424")
-	router.POST("/signup", controllers.Signup)
-	router.POST("/login", controllers.Login)
-	router.GET("/validate", middlewares.RequireAuth, controllers.Validate)
+
+	routes.AdminRoutes(router)
+	routes.UserRoutes(router)
 	router.Run()
 
-	// routes.AuthRoutes(router)
-	// routes.UserRoutes(router)
 }
