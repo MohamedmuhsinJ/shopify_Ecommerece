@@ -61,7 +61,6 @@ func Login(c *gin.Context) {
 		return
 	}
 	var user models.User
-	//result := database.Db.Where("email=?", body.Email).First(&user)
 	database.Db.First(&user, "email=?", body.Email)
 	if user.ID == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -78,14 +77,29 @@ func Login(c *gin.Context) {
 		c.Abort()
 		return
 	}
-
-	if err != nil {
+	if user.BlockStatus {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "invalid tokenString",
+			"error": "user blocked by admin",
 		})
 		c.Abort()
 		return
 	}
+	tokenString, err := GenerateToken(user.Email)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "failed to create tokenString",
+		})
+
+		c.Abort()
+	}
+
+	token := tokenString["Token"]
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", token, 3600*24*30, "", "", false, true)
+	c.JSON(202, gin.H{
+		"message": "verified",
+		"token":   tokenString,
+	})
 	c.JSON(http.StatusOK, gin.H{
 		"user": user.FirstName + user.LastName,
 	})
@@ -101,19 +115,6 @@ func UserHome(c *gin.Context) {
 		"username": user.FirstName + user.LastName,
 	})
 }
-
-// func lValidate(c *gin.Context) {
-// 	User, err := c.Get("user")
-// 	if !err {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": "lfailed to create token",
-// 		})
-// 		return
-// 	}
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"message": User,
-// 	})
-// }
 
 func ForgetPassword(c *gin.Context) {
 	var user models.User
@@ -132,6 +133,7 @@ func ForgetPassword(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid email",
 		})
+
 		return
 	}
 	c.JSON(http.StatusAccepted, gin.H{

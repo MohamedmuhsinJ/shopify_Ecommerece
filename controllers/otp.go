@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 
 	"github.com/MohamedmuhsinJ/shopify/database"
@@ -81,22 +80,22 @@ func CheckOtp(c *gin.Context) {
 		c.Abort()
 		return
 	} else if *res.Status == "approved" {
-		tokenString, err := GenerateToken(user.Email)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "failed to create tokenString",
-			})
+		// tokenString, err := GenerateToken(user.Email)
+		// if err != nil {
+		// 	c.JSON(http.StatusUnauthorized, gin.H{
+		// 		"error": "failed to create tokenString",
+		// 	})
 
-			return
-		}
+		// 	return
+		// }
 
-		token := tokenString["Token"]
-		c.SetSameSite(http.SameSiteLaxMode)
-		c.SetCookie("Authorization", token, 3600*24*30, "", "", false, true)
-		c.JSON(202, gin.H{
-			"message": "verified",
-			"token":   tokenString,
-		})
+		// token := tokenString["Token"]
+		// c.SetSameSite(http.SameSiteLaxMode)
+		// c.SetCookie("Authorization", token, 3600*24*30, "", "", false, true)
+		// c.JSON(202, gin.H{
+		// 	"message": "verified",
+		// 	"token":   tokenString,
+		// })
 
 	} else {
 		c.JSON(400, gin.H{

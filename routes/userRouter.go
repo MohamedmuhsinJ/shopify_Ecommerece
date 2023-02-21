@@ -20,6 +20,16 @@ func UserRoutes(c *gin.Engine) {
 	{
 
 		user.GET("/home", controllers.UserHome)
+		user.GET("/products", controllers.ProductView)
+		user.GET("/products/search", controllers.ProductSearch)
+		user.GET("/products/sort", controllers.ProductSort)
+		user.POST("/addaddress", controllers.Address)
+		user.GET("/showaddress", controllers.ShowAddress)
+		user.PUT("/editaddress", controllers.EditAddress)
+		user.POST("/addtocart", controllers.AddToCart)
+		user.GET("/cart", controllers.ViewCart)
+		user.GET("/editcart", controllers.EditCart)
+		user.GET("/checkout", controllers.CheckOut)
 
 	}
 }

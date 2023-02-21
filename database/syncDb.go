@@ -3,6 +3,7 @@ package database
 import "github.com/MohamedmuhsinJ/shopify/models"
 
 func SyncDb() {
+
 	Db.AutoMigrate(
 		&models.User{},
 		&models.Admin{},
@@ -11,5 +12,8 @@ func SyncDb() {
 		&models.Category{},
 		&models.ShoeSize{},
 		&models.Product{},
+		&models.Address{},
+		&models.OrderedItem{},
+		&models.Orders{},
 	)
 }

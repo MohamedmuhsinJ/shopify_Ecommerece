@@ -19,10 +19,9 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "3000"
 	}
 	router := gin.Default()
-
 	routes.AdminRoutes(router)
 	routes.UserRoutes(router)
 	router.Run()

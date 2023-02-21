@@ -83,6 +83,22 @@ func AdminLogin(c *gin.Context) {
 	})
 }
 
+func AdminLogout(c *gin.Context) {
+	token, _ := c.Get("Token")
+	if token == "" {
+		c.JSON(401, gin.H{
+			"error": "token error",
+		})
+		c.Abort()
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "admin logedout successfully",
+		"token":   token,
+	})
+}
+
 func AdminDashboard(c *gin.Context) {
 	email := c.GetString("admin")
 	c.JSON(http.StatusOK, gin.H{
@@ -104,11 +120,17 @@ func UserSearch(c *gin.Context) {
 func UserBlock(c *gin.Context) {
 	var user models.User
 	email := c.Query("email")
-	database.Db.Where("email=?", email).Update("block_status", true)
-	// user.UpdatedAt = time.Now()
-	// user.BlockStatus = true
-	// database.Db.Save(&user)
+	database.Db.Model(&user).Where("email=?", email).Update("block_status", "true")
 	c.JSON(200, gin.H{
 		"message": user.Email + " " + " blocked",
+	})
+}
+
+func UserUnblock(c *gin.Context) {
+	var user models.User
+	email := c.Query("email")
+	database.Db.Model(&user).Where("email=?", email).Update("block_status", "false")
+	c.JSON(200, gin.H{
+		"message": user.FirstName + " " + user.LastName + " successfully unblocked",
 	})
 }
