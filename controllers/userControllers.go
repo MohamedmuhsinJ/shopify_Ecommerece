@@ -112,7 +112,7 @@ func UserHome(c *gin.Context) {
 	database.Db.First(&user, "email=?", email)
 
 	c.JSON(200, gin.H{
-		"username": "hello " + user.FirstName + user.LastName,
+		"username": "welcome user " + user.FirstName + user.LastName,
 	})
 }
 
