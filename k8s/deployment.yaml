@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopifykart-deployment
+  labels:
+    app: shopoifykart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shopifykart
+  template:
+    metadata:
+      labels:
+        app: shopifykart
+    spec:
+      containers:
+      - name: shopifykart
+        image: mohamedmuhsin/shopifykart:1.0
+        imagePullPolicy: IfNotPresent 
+        ports:
+        - containerPort: 3000
+        env:
+          - name: dbHost
+            value: postgres-service
+          - name: dbPort
+            value: 5432
+            # valueFrom: 
+            #  configMapKeyRef:
+            #    name: postgres-configmap
+            #    key: database_url
+          - name: dbUser
+            value: "postgres"
+          - name: dbName
+            value: "shopify"
+          - name: dbType
+            value: postgres
+          - name: dbPassword
+            value: "090900"
+

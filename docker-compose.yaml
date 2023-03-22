@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  shopify:
+    build: .
+    restart: on-failure
+    depends_on:
+      - postgres
+  
+
+    ports:
+      - 3000:3000
+    environment:
+     - dbHost=postgres
+     - dbUser=${dbUser}
+     - dbPassword=${dbPassword}
+     - dbName=${dbName}
+     - dbType=${dbType}
+     - dbPort=${dbPort}
+     - Secret=${Secret}
+     - Account_sid=${Account_sid}
+     - Auth_Token=${Auth_Token}
+     - SSID=${SSID}
+     - Stripe=${Stripe}
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: shopify
+      POSTGRES_PASSWORD: 090900
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+    
