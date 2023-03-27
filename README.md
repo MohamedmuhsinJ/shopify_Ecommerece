@@ -8,7 +8,6 @@ Gin-Gonic:This whole project is fully completed using gin-gonic which is a popul
 Database used:
 
 
-
 PostgreSQL:This project mainly used PostgreSQL as Database with the help of ORM tool named GORM.It provides better and simplified forms of queries for better understanding
 
 go get -u gorm.io/gorm
@@ -43,4 +42,4 @@ go run main.go
 app is listening on port 3000
 
 
-For [api documentation] (https://documenter.getpostman.com/view/24747045/2s93RQTZS7)
+For [api documentation](https://documenter.getpostman.com/view/24747045/2s93RQTZS7).
