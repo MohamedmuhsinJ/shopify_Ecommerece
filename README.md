@@ -41,3 +41,6 @@ Run
 go run main.go
 
 app is listening on port 3000
+
+
+For [api documentation] (https://documenter.getpostman.com/view/24747045/2s93RQTZS7)
